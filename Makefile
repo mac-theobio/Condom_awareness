@@ -94,7 +94,7 @@ model.big.Rout: mergedData.Rout model.R
 # The Manuscript
 
 Sources += condom_ms.bib plos_CondomMS.tex
-Sources += PLOS-submission.eps plos2015.bst
+Sources += PLOS-submission.pdf plos2015.bst
 
 plos_CondomMS.pdf: PLOS-submission.pdf
 PLOS-submission.pdf: PLOS-submission.eps
