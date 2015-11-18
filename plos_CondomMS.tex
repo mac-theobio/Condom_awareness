@@ -1,0 +1,434 @@
+% Template for PLoS
+% Version 3.1 February 2015
+%
+% To compile to pdf, run:
+% latex plos.template
+% bibtex plos.template
+% latex plos.template
+% latex plos.template
+% dvipdf plos.template
+%
+% % % % % % % % % % % % % % % % % % % % % %
+%
+% -- IMPORTANT NOTE
+%
+% This template contains comments intended 
+% to minimize problems and delays during our production 
+% process. Please follow the template instructions
+% whenever possible.
+%
+% % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Once your paper is accepted for publication, 
+% PLEASE REMOVE ALL TRACKED CHANGES in this file and leave only
+% the final text of your manuscript.
+%
+% There are no restrictions on package use within the LaTeX files except that 
+% no packages listed in the template may be deleted.
+%
+% Please do not include colors or graphics in the text.
+%
+% Please do not create a heading level below \subsection. For 3rd level headings, use \paragraph{}.
+%
+% % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- FIGURES AND TABLES
+%
+% Please include tables/figure captions directly after the paragraph where they are first cited in the text.
+%
+% DO NOT INCLUDE GRAPHICS IN YOUR MANUSCRIPT
+% - Figures should be uploaded separately from your manuscript file. 
+% - Figures generated using LaTeX should be extracted and removed from the PDF before submission. 
+% - Figures containing multiple panels/subfigures must be combined into one image file before submission.
+% For figure citations, please use "Fig." instead of "Figure".
+% See http://www.plosone.org/static/figureGuidelines for PLOS figure guidelines.
+%
+% Tables should be cell-based and may not contain:
+% - tabs/spacing/line breaks within cells to alter layout or alignment
+% - vertically-merged cells (no tabular environments within tabular environments, do not use \multirow)
+% - colors, shading, or graphic objects
+% See http://www.plosone.org/static/figureGuidelines#tables for table guidelines.
+%
+% For tables that exceed the width of the text column, use the adjustwidth environment as illustrated in the example table in text below.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+%
+% -- EQUATIONS, MATH SYMBOLS, SUBSCRIPTS, AND SUPERSCRIPTS
+%
+% IMPORTANT
+% Below are a few tips to help format your equations and other special characters according to our specifications. For more tips to help reduce the possibility of formatting errors during conversion, please see our LaTeX guidelines at http://www.plosone.org/static/latexGuidelines
+%
+% Please be sure to include all portions of an equation in the math environment.
+%
+% Do not include text that is not math in the math environment. For example, CO2 will be CO\textsubscript{2}.
+%
+% Please add line breaks to long display equations when possible in order to fit size of the column. 
+%
+% For inline equations, please do not include punctuation (commas, etc) within the math environment unless this is part of the equation.
+%
+% % % % % % % % % % % % % % % % % % % % % % % % 
+%
+% Please contact latex@plos.org with any questions.
+%
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
+
+% Use adjustwidth environment to exceed column width (see example table in text)
+\usepackage{changepage}
+
+% Use Unicode characters when possible
+\usepackage[utf8]{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% fixltx2e package for \textsubscript
+\usepackage{fixltx2e}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files (see Supporting Information section for more info)
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+% ligatures disabled
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% rotating package for sideways tables
+\usepackage{rotating}
+
+% Remove comment for double spacing
+%\usepackage{setspace} 
+%\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in 
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption with a period
+% Captions will be left justified
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+
+% Use the PLoS provided BiBTeX style
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[width=2.0in]{PLOS-submission.pdf}}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+\lfoot{\sf PLOS}
+
+%\definecolor{BrickRed}{rgb}{0.8, 0.25, 0.33}
+
+\newcommand{\comment}[2]{((\textbf{#1: } #2))}
+\newcommand{\jd}[1]{\comment{JD}{{\color{BrickRed}#1}}}
+\newcommand{\lk}[1]{\comment{LK}{{\color{BrickRed}#1}}}
+\newcommand{\ap}[1]{\comment{AP}{{\color{BrickRed}#1}}}
+\newcommand{\bmb}[1]{\comment{BMB}{{\color{BrickRed}#1}}}
+\newcommand{\cons}[1]{\comment{CONSENSUS}{#1}}
+\newcommand{\needct}[1]{\comment{Citations}{needed}}
+\newcommand{\abpar}[1]{\paragraph{#1}}
+\newcommand{\absec}[1]{\medskip\noindent\textbf{#1}}
+\newcommand{\absecc}[1]{\medskip\noindent{#1}}
+
+\usepackage{setspace}
+
+\newcommand{\fref}[1]{Fig.~\ref{#1.fig}}
+
+\newcommand{\KnowsPWHA}{``Knows someone with HIV/AIDS"}
+\newcommand{\KnowsCP}{``Knows condoms protect from HIV/AIDS"}
+\newcommand{\KnowsHealthy}{``Knows a person with HIV may look healthy"} 
+
+
+
+
+%% Include all macros below
+
+\newcommand{\lorem}{{\bf LOREM}}
+\newcommand{\ipsum}{{\bf IPSUM}}
+
+%% END MACROS SECTION
+
+
+\begin{document}
+\vspace*{0.35in}
+
+% Title must be 250 characters or less.
+% Please capitalize all terms in the title except conjunctions, prepositions, and articles.
+\begin{flushleft}
+{\Large
+\textbf\newline{HIV knowledge and awareness as predictors of condom use in sub-Saharan Africa}
+}
+\newline
+% Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
+\\
+Audrey Patocs\textsuperscript{1,*}%,\textcurrency a},
+Lindsay T. Keegan\textsuperscript{1},
+Benjamin M Bolker\textsuperscript{1,2},
+Jonathan Dushoff\textsuperscript{1,2,3},
+\\
+\bigskip
+\bf{1} Department of Biology, McMaster University, Hamilton, Ontario, Canada
+\\
+\bf{2} Department of Mathematics and Statistics, McMaster University, Hamilton, Ontario, Canada
+\\
+\bf{3} Institute for Infectious Disease Research, McMaster University, Hamilton, Ontario, Canada
+\\
+\bigskip
+
+% Insert additional author notes using the symbols described below. Insert symbol callouts after author names as necessary.
+% 
+% Remove or comment out the author notes below if they aren't used.
+%
+% Primary Equal Contribution Note
+%\Yinyang These authors contributed equally to this work.
+
+% Additional Equal Contribution Note
+% Also use this double-dagger symbol for special authorship notes, such as senior authorship.
+%\ddag These authors also contributed equally to this work.
+
+% Current address notes
+%\textcurrency a Insert current address of first author with an address update
+% \textcurrency b Insert current address of second author with an address update
+% \textcurrency c Insert current address of third author with an address update
+
+% Deceased author note
+%\dag Deceased
+
+% Group/Consortium Author Note
+%\textpilcrow Membership list can be found in the Acknowledgments section.
+
+% Use the asterisk to denote corresponding authorship and provide email address in note below.
+* audreypatocs@gmail.com
+
+\end{flushleft}
+% Please keep the abstract below 300 words
+\section*{Abstract}
+We explore the relationship between individuals' awareness of their  ``local" HIV epidemic and their sexual risk behavior. Specifically, we investigate whether personal awareness of the epidemic, measured as reported knowing a person with HIV, is associated with reported condom use at last sexual intercourse.  We used population-level survey data collected by the Demographic and Health Surveys in Kenya, Lesotho, Namibia, Senegal, Swaziland, Uganda, and Zimbabwe between 2005 and 2009 to assess the relationship between condom use and selected predictors, including knowing a person with HIV/AIDS. In total, 56,479 respondents were included in the analysis. We constructed a mixed-effects logistic regression model where condom use at last sex is the dependent measure. In addition to socio-demographic predictors, we used predictors associated with HIV awareness: \KnowsPWHA, \KnowsCP, and \KnowsHealthy. All three HIV awareness predictors (\KnowsPWHA, \KnowsCP, and \KnowsHealthy) were significantly, positively associated with increased probability of condom use at last sex. There was also a significant, positive association with more education, increased wealth, lower age, and urban residence, and a significant, negative association with married status, religion, and the type of sex partner at last sex.  In this study, individuals who report knowing a person with HIV/AIDS also reported higher condom use. This result is supported by some studies, while other studies failed to find this correlation. Our results suggest that disclosure of HIV status is important and may contribute to population-level protective effects. This highlights an additional reason for concern about HIV-related stigma. 
+
+
+
+% Please keep the Author Summary between 150 and 200 words
+% Use first person. PLOS ONE authors please skip this step. 
+% Author Summary not valid for PLOS ONE submissions.   
+%\section*{Author Summary}
+
+
+
+\linenumbers
+
+
+\section{Introduction}
+Human behavior is a critical component of infectious disease transmission; it can drive, perpetuate or curtail an epidemic \cite{FunkGila09, Funk_2010}. The spread of infectious diseases can trigger behavioral changes in people trying to minimize exposure and avoid infection \cite{ FunkGila09, Funk_2010}. These strategies include: social and physical distancing, such as taking sick days or avoiding handshaking \cite{LauYang05,SchuBell11}; the use of face masks \cite{Lau_2005, Kristiansen_2007}; vaccination \cite{FunkGila09, Brewer_2007}; and the practice of safer sex \cite{Ahituv_1996}. These practices were observed even in Medieval times, when port cities were quarantined to prevent the spread of bubonic plague \cite{Gensini_2004}. 
+
+Behavioral changes in response to disease are important to the control of sexually transmitted infections including HIV/AIDS. Several authors have described how accurate knowledge of and awareness about HIV transmission can lead to changes in behavior \cite{GregZhuw98, IjumGami04, MaciBrow01, Coates_2008}. One behavior in particular, condom use, has the potential to prevent sexual transmission of HIV nearly entirely; however, 1.9 million adults were newly infected in 2012, the vast majority through sexual transmission, suggesting condoms are not used nearly to their full potential.\cite{UNAIDS13}. This paper explores the factors associated with higher likelihood of condom use, and specifically evaluates whether knowledge of and awareness about HIV transmission are associated with increased probability of condom use.   
+
+In southern and eastern Africa, despite control efforts, 1 out of every 5 individuals is infected with HIV/AIDS\cite{UNAIDS13}. In these regions,  the primary method of transmission is through heterosexual intercourse; thus, the majority of control efforts are targeted at reducing sexual transmission of HIV \cite{UNAIDS13}. Strategies to alter behavior have been a major component of HIV prevention strategies, including: advocacy of abstinence and monogamy; voluntary medical male circumcision \cite{Bailey_2007, Sawires_2007}; reducing multiple partnerships; and promoting condom use\cite{UNAIDS13}. In addition to encouraging behavioral changes, antiretroviral-based (ARV) approaches, including treatment as prevention (TASP) \cite{Cohen_2011} and  pre- and post-exposure prophylaxis (PrEP and PEP), are also part of the HIV prevention package. Each of these approaches has its merits and limitations: ARVs have a high cost and limited availability in many regions \cite{Egger_2005}; male circumcision is only partially protective and directly protects the male partner only \cite{Gray_2007}; abstinence and mono gamy may be culturally unacceptable long-term choices among reproductive-aged adults \cite{Vaughan_2000}; and condoms, despite high HIV-prevention effectiveness, are not always used \cite{AdihAlex99,KayiFors11}. While no single intervention is sufficient to control the HIV/AIDS epidemic, condoms present an effective and low cost but underutilized tool.
+
+
+Although condom use is a key component in the fight against HIV/AIDS, several obstacles limit its efficacy including: social pressure to forgo condoms; lack of access to condoms or difficulty negotiating their use, particularly for women \cite{ChimMcGr10, MacPTerr09, BassMhlo91, PettMeas04}; lack of accurate knowledge that condoms protect against HIV/AIDS \cite{KayiFors11}; and low perceived risk of HIV \cite{AdihAlex99, MeekSilv06}. This paper will focus on how knowledge and perceived risk contribute to condom use to identify how to affect a behavioral change that would maximize condom use and reduce sexual transmission of HIV in endemic African countries.
+
+
+A critical component of behavioral adaptation in response to an epidemic is access to information \cite{Funk_2010, FunkGila09}. Thus, we expect people who have a high perceived risk and accurate knowledge that condoms prevent transmission of HIV/AIDS to be more likely to use a condom. Various studies have attempted to determine the effect of personal experience with HIV/AIDS on condom use and other risk behaviors, with mixed results. Using `reported knowing one or more persons with HIV/AIDS' (PWHA) as a proxy for personal experience, some studies found that ``knowing a PWHA'' is associated with a decrease in specific risk behaviors  \cite{GregZhuw98,IjumGami04, MaciBrow01}; one found an increase  \cite{PalePett08}; and others failed to find a significant relationship \cite{KayiFors11, CamlChim03, Zell03, Katz06}. However, these results need to be interpreted with care as a lack of significance \emph{per se} is not evidence for a lack of relationship. Comparing the results of studies that focus on different study populations is also problematic. Some studies include only men \cite{MaciBrow01}, some only women \cite{CamlChim03}, and others only youth \cite{ChimMcGr10, KayiFors11, Katz06, PalePett08}. More importantly, different studies use different covariates to try to account for confounding and moderating effects. Here, we account for a wide variety of important covariates in data from seven countries and include both men and women. 
+
+To assess whether condom use is directly associated with ``knowing a PWHA'', we accounted for the covariates that have previously been identified to affect condom use. After a review of the literature, we included:
+schooling or education \cite{MaciBrow01, CamlChim03, Katz06, OyedFeyi11, UchuMaga12},
+wealth or socioeconomic status \cite{MeekSilv06, ChimMcGr10, OyedFeyi11},
+age \cite{AdihAlex99, CamlChim03, Zell03, MeekSilv06, ChimMcGr10,  OyedFeyi11, UchuMaga12},
+residence \cite{CamlChim03, OyedFeyi11, UchuMaga12},
+marital status \cite{MaciBrow01, UchuMaga12},
+gender \cite{MaciBrow01, ChimMcGr10},
+religion \cite{MaciBrow01, OyedFeyi11, UchuMaga12},
+type of sex partner \cite{CamlChim03, ChimMcGr10},
+and accurate knowledge of HIV/AIDS and condom efficacy \cite{AdihAlex99, CamlChim03, Katz06,KayiFors11, LiddGile08}.
+
+With the high levels of HIV/AIDS in these populations (up to 20\% of the population infected) and the low proportion of people who report ``knowing a PWHA'' (47.2\% of the respondents), it is important to realize that many people who report not knowing a PWHA actually do. They may report otherwise for several reasons: PWHA may themselves be unaware of their status; they may keep their status secret from respondents; or respondents may know (or suspect) that they know a PWHA but nonetheless answere that they do not. Stigma and lack of open communication, can play a role at any step in this chain.
+
+Using data from the Demographic and Health Surveys (DHS) \cite{DHS}, we analyzed this relationship for both men and women from seven countries in Africa. We accounted for a wide range of knowledge, status, and socio-demographic factors across multiple countries with a breadth of HIV prevalences. 
+We used this broad-scale approach to provide a clearer view of the association between ``knowing a PWHA'' and condom use.
+
+
+\section{Methods}
+
+\subsection{Selection} 
+
+\begin{center}
+\begin{table}
+  \caption{Summary of predictors used in analysis}
+\begin{tabular}[pos]{| l | l | r | r | }
+\hline
+Variable & Levels & n & percentage\\
+\hline
+Country  & Kenya & 8412 & 14.9\\
+& Lesotho &  5870 & 10.4\\
+& Namibia &  9063 & 16.0\\
+& Senegal &  9619 & 17.0\\
+& Swaziland &  5293 & 9.4\\
+& Uganda &  7960 & 17.1\\
+& Zimbabwe &  10262 & 18.2\\
+\hline
+Gender & Male & 15252 & 27.0\\
+& Female & 41227 & 73.0\\
+\hline
+Type of residence & Urban& 18972 & 33.6\\
+& Rural & 37507 & 66.4\\
+\hline
+Highest educational level & None & 11119 & 19.7\\
+& Primary & 21850 & 38.7\\
+& Secondary & 20151 & 35.7\\
+& Higher & 3359 & 5.9\\
+\hline
+Religion & None/Other & 4001 & 7.1\\
+& Catholic/Orthodox & 11308 & 20.0\\
+& Other Christian  & 29658 & 52.5\\
+& Muslim           & 11512 & 20.3\\
+\hline
+Marital Status & Never married & 11406 & 20.2\\
+& Currently married & 41622 & 73.7\\
+& Formerly married & 3451 & 6.1\\
+\hline
+Relationship to last sex partner &  Cohabiting partner   & 41914 & 74.2\\
+& Non-cohabiting partner & 12716  & 22.5\\
+& Other/casual partner & 1772 & 3.1\\
+& Commercial sex worker &  77 & .13\\
+\hline
+\KnowsPWHA & Yes & 26675 & 47.2\\
+& No & 29804 & 52.7\\
+\hline
+``Knows a person with & Yes & 48112 & 85.2\\
+HIV may look healthy'' & No/DK & 8367 & 14.8\\
+\hline
+``Knows condoms protect  & Yes & 45938 & 81.3\\
+from HIV/AIDS'' & No & 10541 & 18.7\\
+\hline
+Last intercourse used condom & Yes & 12397 & 21.9\\
+& No & 44082 & 78.1\\
+\hline
+& Total Respondents & 56479  & 100\\
+\hline
+\end{tabular}
+\end{table}
+\end{center}
+
+We conducted a secondary analysis of data collected by Demographic and Health Surveys \cite{DHS}. All survey respondents provided written informed consent at the time of data collection by DHS.
+We included seven sets of survey data from the fifth DHS series (2005--2009) in the analysis: Kenya (2008--09), Lesotho (2009), Namibia, (2006--07), Senegal (2005), Swaziland (2006--07), Uganda (2006), and Zimbabwe (2005--06). Surveys were selected for inclusion to represent a range of geographic regions and national HIV prevalences.  Criteria for inclusion also required that the survey contain  our key HIV-awareness predictor variables: \KnowsPWHA; \KnowsCP; and \KnowsHealthy, as well as the dependent variable ``Was a condom used at last sex?".  A summary of the data used is given in Table 1. Individuals who reported no sex in their lifetime (n=17,698), or none in the previous twelve months (n=11,213), were excluded from analysis. Once respondents with missing responses to any variable(s) of interest were excluded, we included 56,479 respondents in the analysis (\fref{flowchart}).
+
+% Variables were selected from DHS surveys \cite{MeasureDHS08} to best approximate those established as significant predictors in previous research.
+
+\begin{figure}[!hbt]
+%\includegraphics[width=1\textwidth]{Fig1.pdf}
+\caption{Schematic representation of respondent selection. Respondents were systematically eliminated, as shown above, due to missing information, lack of knowledge on HIV/AIDS,  reporting "No" or "NA" to ever having sex and those who reported not having sex in the past year. The schematic shows both the starting and ending number of respondents (broken down by sex) and the number of respondents reporting each answer that was cause for elimination.}
+\label{flowchart.fig}
+\end{figure}
+
+\subsection{Analysis}
+
+We use mixed effects logistic regression, using the {\tt glmer} function in the {\tt lme4} package for R \cite{Rstats,Rpackage_lme4}. The response variable in this model is the response to the question ``Was a condom used at your last sexual intercourse?". 
+
+The HIV-awareness predictors above were incorporated as fixed effects, along with our selected sociodemographic predictors, which included: gender, age, DHS wealth index, marital status, religion, urban residence, education, and the type of sex partner at last intercourse. We chose, \emph{a priori} a 4-knot spline to model the continuous predictor variables of respondents' age and DHS wealth index, allowing flexibly for nonlinear relationships between the predictors and the probability of the response.  We included country, province and DHS survey cluster as random effects, to control for geographic correlations. In addition to the main model, separate sub-models were generated for each data set, resulting in 14 sub-models representing two genders in each of the seven countries.
+
+
+\section{Results}
+
+Of the 56,479 sexually active respondents in the analysis ( \fref{flowchart}), reported condom use ``at last sex'' was generally low, with 21.9\% of respondents reporting condom use ``at last sex'', and ranged from 7.8\% (Ugandan women) to 57\% (Namibian men). Reported condom use was higher among men than women in every country except Senegal. 
+
+HIV prevalence in surveyed countries ranged from among the lowest in  Africa (Senegal) to the highest in the world (Swaziland). HIV prevalences at the time of survey were: Kenya (6.3\%); Lesotho (23.6\%); Namibia (14.6\%); Senegal (0.8\%); Swaziland (25.8\%); Uganda (6.3\%); and Zimbabwe (17.8\%) \cite{UNAIDS10}.
+
+\fref{combined_coefplot} shows our main results: as hypothesized, condom use ``at last sex'' is positively associated with ``knowing a PWHA'' (OR=1.15, CI 1.03-1.22). In addition, condom use was positively associated with affirmative responses to \KnowsCP (OR=1.68 CI 1.41-2.02)) and ``Knows someone with HIV/AIDS may look healthy"  (OR=1.17 CI 1.06-1.29). The interaction between condom knowledge and \KnowsPWHA was not significant; plots shown here are based on models that do not include the interaction term.
+
+In the country-gender sub-models, weakly positive estimates associating condom use and knowing a person with HIV/AIDS were observed in 13 of 14 surveys (all except Senegalese men) when analyzed independently (\fref{combined_coefplot}). However, these estimates were statistically significant in only two sub-models: Namibian men and Namibian women.  
+
+All eight sociodemographic predictors were significantly associated with the probability of condom use ``at last sex'' ($p<0.001$). \fref{panel_plot} shows the estimated effects on condom use of each level of the categorical variables (education, marital status, religion, gender, residence and type of sex partner) and of the continuous variables (wealth and age). Increased probability of condom use was associated with higher education, lower age, greater wealth, urban residence, being single, and being male; these results are consistent with previous studies.
+\fref{panel_plot} also shows clear non-linear effects of age and wealth on condom use.
+
+\begin{figure}[!hbt]
+%\includegraphics[width=0.9\textwidth]{Fig2.pdf}
+\caption{\emph{Top:} Coefficients of regression estimates associated with likelihood of condom use at last sex: HIV/AIDS awareness factors. The estimate for each factor is positively associated with condom use ($p<0.01$). Odds ratios and confidence intervals: Knows person with HIV (OR=1.15, CI 1.03-1.22); Knows condoms protect from HIV/AIDS(OR=1.68 CI 1.41-2.02); Knows someone with HIV/AIDS may look healthy (OR=1.17 CI 1.06-1.29). Error bars (in all figures) represent 95\% confidence intervals. \emph{Bottom:} Coefficients of regression estimates for \KnowsPWHA by gender and country.
+}
+\label{combined_coefplot.fig}
+\end{figure}
+%
+%
+\begin{figure}[!hbt]
+%\includegraphics[width=0.9\textwidth]{Fig3.pdf}
+\caption{Effects of model predictors on condom use at last sex. All predictors are shown on the same scale except (f) ``Last Sex Partner". All factors are statistically significant ($p <0.001$).}
+\label{panel_plot.fig}
+\end{figure}
+
+
+\section{Discussion}
+
+We found that the measures of HIV knowledge, including \KnowsPWHA, were associated with increased likelihood that individuals used a condom at last sex.  The implication of these results is that behavior change may be partly determined by the level of morbidity and mortality experienced by African people. Further, higher levels of disclosure (or lower levels of denial) of HIV/AIDS may result in greater changes in behavior.
+
+Fewer than half of the respondents (47.2\% overall) reported ``knowing a PWHA''. The proportion of people who do not know (or report) that they know a PWHA must therefore be very large in some countries, particularly those where HIV prevalence is high, but rates of reporting knowing a PWHA is low. There are several likely explanations for this phenomenon: there must be many cases where HIV/AIDS is going undiagnosed; PWHA are not sharing information about their status; respondents are concealing their knowledge from the interviewer; or some combination of these factors.  Said another way, knowing a PWHA and \emph{reporting} that one knows a PWHA are not the same thing. This limitation of our variable suggests we may be underestimating the true proportion of people who know a PWHA. However, we are capturing the proportion of people who openly report knowing a person with HIV, which is arguably more important. Knowledge (or openness) can lead people to seek prevention,  testing, treatment and other support.  Our results suggest that lack of of knowledge and openness can also lead people to underestimate their own risk of HIV, and thus interfere with the promotion of safe behavior.
+
+After accounting for all of the confounding factors, using the mult-national data set with both men and women, all of our predictor variables had statistically significant effects. However, analyzing the data on a country-by-country scale, we found, like many other studies, \cite{KayiFors11, CamlChim03, Zell03, Katz06} that the patterns were consistent but not statistically significant.  This contrast suggests that some of the inconclusive results from previous country-level studies \cite{KayiFors11, CamlChim03, PalePett08} may be due to a lack of statistical power.
+
+Another important concern is covariates that can obscure the effects of HIV knowledge on risk behavior. People tend to share values, experiences, and demographic characteristics with their friends and associates \cite{CharBarg99}. This correlation is particularly concerning for HIV/AIDS because the effect of HIV knowledge on sexual behavior may be masked by the characteristics that make someone likely to know a person with HIV. For example, low overall condom use among high-risk groups can mask positive effects of knowing a PWHA on condom use.  We controlled for such effects to the extent that the data allowed. Additionally, data from the DHS does not include information on an individual's HIV status. While having this information would allow us to control for those who are using condoms because they are HIV+, the data from DHS are representative of the overall population. 
+
+Because we rely on DHS data, we had to use proxies for some factors, i.e. we used \KnowsPWHA, \KnowsHealthy as proxies for epidemic awareness, and had to exclude others, such as measures of sexual behavior, like frequency of intercourse and number of sexual partners were not consistently available. Similarly, we chose ``Condom used at last sex", as the best available (but imperfect) proxy for condom use. 
+
+While our results show that individuals who are married are less likely to use a condom, a growing body of evidence suggests that transmission between couples is responsible for an appreciable proportion of new infections \cite{Maharaj_2012, Chemaitelly_2012}. A study on condom use within marriage found that consistent condom use in married and cohabitating couples has substantially increased \cite{Maharaj_2012}. Given this, we decided to include married couples in our analysis. 
+
+A factor that we neglected but that could potentially drive down condom use is differential access (or perceived access) to condoms.  We chose not to incorporate reported access, because it seems likely to be correlated with condom-seeking behavior: individuals who have attempted to obtain condoms are probably more likely to report that they could get one.  Instead, we relied on random effects (country, province and DHS cluster) to control for patterns of condom access, making the assumption that access to condoms is a location-dependent factor.
+
+Our results show that men report using condoms at a substantially higher rate than women.  This is not as paradoxical as it appears, even though the vast majority of sexual encounters are assumed to be heterosexual. Transactional sex is a major component of sexual behavior in Africa \cite{BassMhlo91}. In a situation where relatively few (female) commercial sex workers engage in protected intercourse with relatively large numbers of male clients, we would expect a higher proportion of men than women to report using a condom at their last sexual encounter. In fact, men report substantially higher condom use when intercourse was with a sex worker (\fref{combined_coefplot}, ``Last Sex Partner"). This effect could be exacerbated if DHS tends to systematically under-sample female sex workers. 
+
+Our findings highlight the importance of openness about HIV status and disseminating accurate HIV-related information.  HIV/AIDS education remains critical to increasing condom use in Africa.  Information about HIV+ status of acquaintances is positively associated with respondents' condom use, and may influence condom use.  This result further underlines the potential public health impact of evaluating and diminishing HIV-related stigma. 
+
+\section{Conclusions}
+
+Our results show that knowing a person with HIV/AIDS is strongly associated with increased condom use.  Where HIV prevalence is extremely high, it is likely that all people know someone with HIV, but stigma limits disclosure about HIV infection.  To the extent that our results can be interpreted causally (i.e., that knowledge of PWHA leads directly or indirectly to condom use), this implies that stigma can reduce condom use. Thus, sharing accurate information about HIV prevalence and personal risk could be an important tool in  combating the HIV epidemic.
+
+
+
+
+\section*{Acknowledgments}
+The authors would like to thank Jake Szamosi and Chyun-Fung Shi for their useful comments and suggestions. 
+
+
+\nolinenumbers
+
+%\section*{References}
+% Either type in your references using
+% \begin{thebibliography}{}
+% \bibitem{}
+% Text
+% \end{thebibliography}
+%
+% OR
+%
+% Compile your BiBTeX database using our plos2015.bst
+% style file and paste the contents of your .bbl file
+% here.
+% 
+\bibliographystyle{plos2015} % Style BST file
+
+\bibliography{condom_ms}
+
+\end{document}
+

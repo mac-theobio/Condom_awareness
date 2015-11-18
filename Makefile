@@ -2,7 +2,7 @@
 ### Hooks for the editor to set the default target
 current: target
 
-target pngtarget pdftarget vtarget acrtarget: model.big.Rout 
+target pngtarget pdftarget vtarget acrtarget: plos_CondomMS.pdf 
 
 ##################################################################
 
@@ -91,6 +91,20 @@ model.big.Rout: mergedData.Rout model.R
 
 ##################################################################
 
+# The Manuscript
+
+Sources += condom_ms.bib plos_CondomMS.tex
+Sources += PLOS-submission.eps plos2015.bst
+
+plos_CondomMS.pdf: PLOS-submission.pdf
+PLOS-submission.pdf: PLOS-submission.eps
+	convert $< $@
+
+plos_CondomMS.pdf: plos_CondomMS.bbl plos_CondomMS.tex
+
+
+######################################################################
+
 ### Makestuff
 
 ## Change this name to download a new version of the makestuff directory
@@ -101,4 +115,4 @@ model.big.Rout: mergedData.Rout model.R
 -include $(ms)/perl.def
 
 -include $(ms)/wrapR.mk
-# -include $(ms)/oldlatex.mk
+-include $(ms)/oldlatex.mk
