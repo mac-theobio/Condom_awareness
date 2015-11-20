@@ -3,8 +3,8 @@ library("lme4")
 library("glmmTMB")
 library("splines")
 
-## fvec <- 10^seq(-1.6,0,length=15)
-fvec <- 10^seq(-1.6,-1.5,length=2)
+fvec <- 10^seq(-1.6,0,length=15)
+##fvec <- 10^seq(-1.6,-1.5,length=2)
 res <- list(glmer=vector("list",length(fvec)),
             glmmTMB=vector("list",length(fvec)))
 for (i in seq_along(fvec)) {
