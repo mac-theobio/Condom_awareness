@@ -1,0 +1,183 @@
+---
+author: Ben Bolker
+date: "`r format(Sys.time(), '%H:%M %d %B %Y')`"
+output_format: pdf_document
+---
+
+
+```{r setup}
+load("mergedData2.rda")
+library("plyr")
+library("reshape2")
+library("ggplot2"); theme_set(theme_bw())
+library("gridExtra")
+library("nlme")
+options(digits=3)
+```
+
+```{r getDat,echo=FALSE,cache=TRUE}
+n <- nrow(ModAns)
+## sample sizes -- should be stored along with run info ...
+fvec <- 10^seq(-1.6,0,length=15)
+fvec2 <- round(n*fvec)
+
+datList <- do.call("c",lapply(list.files(pattern="modelTime.*\\.rda"),
+                  function(x) {
+                      load(x); return(res)
+                  }))
+
+datList <- lapply(datList,
+    function(x) {                  
+        x[!sapply(x,is.null)]        
+    })
+names(datList)[names(datList)=="glmer"] <- "glmer_bobyqa"
+## sapply(datList,length)
+times <- ldply(datList,
+               function(x) ldply(x,"[[","time"))
+times <- ddply(times,".id",
+               function(x) data.frame(x,nobs=fvec2[1:nrow(x)]))
+AICs <- ldply(datList,
+               function(x) ldply(x,"[[","AIC"))
+AICs <- ddply(AICs,".id",
+               function(x) data.frame(mutate(x,nobs=fvec2[1:nrow(x)])))
+AICs <- ddply(AICs,"nobs",
+            function(x) {
+                with(x,data.frame(.id,Ldiff=X..-min(X..),nobs))
+            })
+```
+
+### Times
+
+```{r timeplot,echo=FALSE}
+(gg_times <- ggplot(times,aes(nobs,elapsed/3600,colour=.id))+
+    geom_line()+geom_point()+
+    scale_x_log10(breaks=c(2000,5000,10000,20000,50000))+
+        scale_y_log10()+
+            labs(x="data set size",y="hours"))
+```
+
+`glmmTMB` *without* optimization scales quadratically
+all the rest scale as ~ nobs^0.75. `glmmTMB` optimized is best (140 seconds),
+`glmer` is best with nloptr (~5 mins for full data set), second-best with bobyqa (~12 minutes? -- not actually run), worst with default (~30 minutes?).
+
+Scaling coefficients:
+
+```{r lmlist}
+coef(lmList(log(elapsed)~log(nobs)|.id,data=times))[,2]
+```
+
+### Number of groups
+
+```{r ngrps,echo=FALSE}
+ngrps <- ldply(datList$glmer_default,"[[","ngrps")
+nfix <- length(datList$glmer_default[[1]]$fixef)
+ngrps2 <- data.frame(nobs=fvec2,
+                     nobs2=fvec2, ## for melting
+                     nranef=rowSums(ngrps),
+                     npar=rowSums(ngrps)+nfix,
+                     mult=(rowSums(ngrps)+nfix)*fvec2)
+ngrps_m <- melt(ngrps2,id.var="nobs")
+ngrps_m <- ddply(ngrps_m,"variable",transform,
+                 value=value/value[1])
+(gg_ngrps <- ggplot(ngrps_m,aes(nobs,value,colour=variable))+
+     geom_line()+geom_point()+
+         scale_x_log10(breaks=c(2000,5000,10000,20000,50000))+
+         scale_y_log10(limit=c(1,100),oob=scales::squish)+
+            labs(x="data set size",y="relative size"))
+```
+
+### Variation in results: subset of parameters
+
+```{r parms1,echo=FALSE,fig.width=8}
+## names(datList$glmer_default[[1]]$fixef)
+## pick some parameters to check
+chkParms <- c("genderM","urbanRuralRural","AIDSlookHealthyYes",
+              "whoLastSexNon-cohabiting partner")
+
+parms <- ldply(datList,
+               function(x) ldply(x,
+                 function(z) { r <- z$fixef
+                               r
+                           }))
+parms <- ddply(parms,".id",
+               function(x) data.frame(x,
+                                      nobs=fvec2[1:nrow(x)]))
+                                 
+parms_m <- melt(parms,id.vars=c("nobs",".id"))
+parms_sub <- subset(parms_m,variable %in% make.names(chkParms))
+(gg_parms <- ggplot(parms_sub,
+                           aes(nobs,value,colour=.id))+
+     geom_line()+geom_point()+
+     scale_x_log10(breaks=c(2000,5000,10000,20000,50000))+
+            labs(x="data set size",y="value")+
+            facet_wrap(~variable,scales="free"))
+
+```
+
+### Overall variation in parameters
+
+```{r parms2,echo=FALSE,warning=FALSE}
+parms2 <- dcast(parms_m,nobs+variable~.id)
+parmsdiff <- ddply(parms2,c("nobs","variable"),
+                   function(x) {
+                       y <- na.omit(unlist(x[,-(1:2)]))
+                       data.frame(rmse=sqrt(sum((y/mean(y)-1)^2)))
+                   })
+ggplot(parmsdiff,aes(x=nobs,y=rmse,colour=variable))+geom_point()+
+    geom_line()+scale_y_log10(breaks=c(0.001,0.005,0.01,0.05,0.1))+
+        scale_colour_discrete(guide=guide_legend(ncol=7,title.position="top"))+
+            theme(legend.position="top",legend.text=element_text(size=rel(0.5)))
+```
+
+
+### Deviation from median est by param/method
+```{r paramdev,warning=TRUE,echo=FALSE}
+parmsdiff2 <- ddply(parms2,c("nobs","variable"),
+                   function(x) {
+                       y <- na.omit(unlist(x[,-(1:2)]))
+                       with(x,data.frame(variable=variable,rbind(c(nobs=nobs,
+                                                 abs(y/median(y)-1)))))
+                   })
+
+parmsdiff2 <- rename(parmsdiff2,c(variable="param"))
+parmsdiff2_m <- melt(parmsdiff2,id.vars=c("nobs","param"))
+
+(ggplot_pd2 <-
+    ggplot(parmsdiff2_m,aes(x=nobs,y=value,colour=param))+geom_point()+
+    geom_line()+scale_y_log10(breaks=c(0.001,0.01,0.1))+
+        facet_wrap(~variable)+
+    geom_hline(yintercept=0.01,lty=2)+
+    labs(x="data set size",y="scaled distance from median")+
+    theme(panel.margin=grid::unit(0,"lines"))+
+        scale_colour_discrete(guide=guide_legend(ncol=7,title.position="top"))+
+            theme(legend.position="top",legend.text=element_text(size=rel(0.5))))
+```
+
+
+```{r parm_focus}
+ggplot_pd2 %+% subset(parmsdiff2_m,
+                      grepl("^ns\\.age",param))
+
+```
+
+Although the difference seems large (10%), the actual difference
+is fairly small in absolute terms, and relative to the confidence
+intervals:
+```{r parmscomp,echo=FALSE}
+subset(parms2,grepl("^ns\\.age.*4.2",variable) & nobs==max(nobs))
+dL2 <- lapply(datList[c("glmmTMB_opt","glmer_nloptr","glmer_default")],
+           function(x) x[[length(x)]])
+dL3 <- ldply(dL2,function(x) name_rows(as.data.frame(x$ci)))
+subset(dL3,grepl("ns(age, 4)2",.rownames,fixed=TRUE))
+```
+
+## AICs
+
+And in any case, the AICs are smallest for glmmTMB ...
+
+```{r AICplot,echo=FALSE}
+ggplot(AICs,aes(nobs,Ldiff,colour=.id))+geom_point(aes(pch=.id))+geom_line()+
+    scale_y_continuous(limit=c(0,0.2),oob=scales::squish)
+```
+
+**Conclusion:** we should go ahead with glmmTMB.  Only problem: I need to write `anova()` and `drop1()` methods!
