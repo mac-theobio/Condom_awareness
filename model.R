@@ -51,7 +51,7 @@ modelSum <- function(x,time=NULL) {
 
 
 t_null_bobyqa <- system.time(
-    null_model_bobyqa <- glmer(nullModForm,family="binomial",
+    null_model <- glmer(nullModForm,family="binomial",
                            data=rMod,
                            control=glmerControl(optimizer="bobyqa")))
 
